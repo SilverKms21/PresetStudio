@@ -1,67 +1,162 @@
 # Preset Studio
 
-🌐 **Language:** English | [Português (Brasil)](README.pt-BR.md)
+**A desktop JSON preset manager with a Filmcraft-focused animation viewer.**
 
-**Universal JSON Preset Manager & Real-Time NLE Keyframe Viewer**
+Preset Studio is a Python/Tkinter application for organizing, inspecting, editing, and previewing JSON presets. It includes dedicated support for the `filmcraft.effect-presets` format, while also providing generic JSON editing tools for other applications.
 
-Preset Studio is a lightweight, zero-dependency desktop application built with Python and Tkinter, featuring a dark interface inspired by **DaVinci Resolve Studio** and **macOS**. It provides native visual editing and real-time keyframe animation previewing for **Filmcraft** (`filmcraft.effect-presets`), alongside a universal JSON tree and raw code editor compatible with any JSON-based software.
-
----
+> **Status:** Early release / beta. Back up important preset files before editing them.
 
 ## Features
 
-* **Real-Time NLE Viewer & Transport Deck**:
-  * Evaluates `graphic_text` and `motion` effects with **Cubic Bézier** (`AutoBezier`, `ContinuousBezier`), `Linear`, and `Hold` keyframe interpolation.
-  * Interactive **on-screen gizmos** to drag **Position**, **Scale**, and **Rotation** directly on the canvas—automatically creating or updating keyframes at the playhead.
-  * Interactive timeline ruler with diamond keyframe markers (`◆`), magnetic keyframe snapping (`Shift` to bypass), playback speed multipliers (`1x` to `100x`), and loop toggle.
-  * Viewport options including Dark Monitor, Transparency Grid, Chroma Green, Center Guides, and Action/Title Safe zones (`95%` / `90%`).
-  * Built-in test objects (Sample Text, Rectangle, Square, Circle, Triangle, Diamond, Star, Block + Text) to preview motion presets.
-* **Dynamic NLE Inspector**:
-  * Automatically builds typed controls (`Bool`, `Text`, `Float`, `Choice`, `Color` picker, `Vec2` X/Y) with live parameter readout during playback.
-  * Dedicated **Keyframe Editor** modal for fine-tuning timestamps, values, and interpolation curves.
-  * **Proportional Resolution Scaling**: Changing `source_size` automatically recalculates all `position` and `anchor` coordinates across every keyframe.
-* **Three Synchronized Workspaces**:
-  1. **🎛 Inspector & Viewer**: Visual NLE editing and live preview.
-  2. **🌲 JSON Tree**: Hierarchical editor for any arbitrary JSON schema (add, edit, or delete keys and array items).
-  3. **</> Raw JSON**: Direct source editing with syntax validation and instant sync back to the Viewer.
-* **Multi-App Profiles & Safe File Management**:
-  * Organize presets by application profile (Filmcraft, OBS, EasyEffects, Godot, etc.) stored in `~/.config/universal-preset-manager/profiles.json`.
-  * Built-in search filter, template creation, duplication, schema validation, and automatic `.json.bak` backups on save.
+- **Preset library and profiles**
+  - Organize presets in application-specific profiles.
+  - Choose a presets folder for each profile.
+  - Create, duplicate, import, rename, and delete preset files.
+  - Save a profile-specific template for creating new presets.
+- **Filmcraft support**
+  - Built-in templates for `graphic_text` and `motion` presets.
+  - Inspect and edit preset variations, effects, and parameters.
+  - Edit keyframed values and preview animated parameters.
+  - Validate important parts of the Filmcraft preset structure.
+- **Animation viewer**
+  - Real-time preview of supported Filmcraft text and motion effects.
+  - Timeline with separate tracks for animated parameters.
+  - Transform gizmos for moving, scaling, and rotating objects.
+  - Dedicated anchor and motion-path editing tools.
+  - Auto-Key, keyframe stamping, and transform reset actions.
+  - Viewport zoom, pan, snapping guides, and safe-area guides.
+  - Sample text and geometric objects for previewing motion.
+- **JSON editing**
+  - Structured JSON tree editor.
+  - Raw JSON editor with formatting and apply actions.
+  - Generic JSON preset support for applications with different schemas.
+- **Safety and workflow**
+  - Creates a `.json.bak` backup when saving over an existing preset.
+  - Keyboard shortcuts for common editing and playback actions.
+- **Localization**
+  - English and Brazilian Portuguese interface translations.
 
----
+## Screenshots
 
-## Requirements & Installation
+Add screenshots or GIFs of the application here, for example:
 
-Preset Studio uses **only the Python standard library**—no `pip install` required.
-
-* **Python 3.8+**
-* **Tkinter** (included by default on Windows/macOS; on Debian/Ubuntu/Linux Mint, install via `sudo apt install python3-tk`)
-
-### Running from Source
-
-```bash
-git clone [https://github.com/your-username/preset-studio.git](https://github.com/your-username/preset-studio.git)
-cd preset-studio
-python3 preset_manager.py
+```markdown
+![Preset Studio main window](docs/screenshots/main-window.png)
 ```
 
----
+## Requirements
 
-## Keyboard Shortcuts
+- Linux, Windows, or macOS with Python 3.10+ recommended.
+- Tkinter / Tcl-Tk.
+- No third-party Python packages are required to run the source version.
 
-| Shortcut | Action |
-| :--- | :--- |
-| `Ctrl + S` | Save current preset (creates a `.json.bak` backup) |
-| `Ctrl + N` | Create a new preset from template |
-| `Space` | Play / Pause preview |
-| `←` / `→` | Step backward / forward 1 frame (30 FPS) |
-| `Shift + ←` / `→` | Step backward / forward 10 frames |
-| `Ctrl + ←` / `→` | Jump to previous / next keyframe |
-| `Home` / `End` | Jump to start / end of timeline |
-| `Shift + Drag` (Timeline) | Scrub freely without keyframe snapping |
+On Debian/Ubuntu, install Tkinter with:
 
----
+```bash
+sudo apt update
+sudo apt install python3 python3-tk python3-venv
+```
+
+## Run from source
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/preset-studio.git
+cd preset-studio
+```
+
+Run the application:
+
+```bash
+python3 main.py
+```
+
+If your distribution separates Tkinter from the base Python package, install its Tkinter package first.
+
+## Build a Linux executable
+
+The repository includes `build_linux.sh`. It uses PyInstaller to create an application folder containing the executable and its bundled runtime.
+
+```bash
+chmod +x build_linux.sh
+./build_linux.sh
+```
+
+The output is created under:
+
+```text
+dist/PresetStudio/
+```
+
+Run it with:
+
+```bash
+./dist/PresetStudio/PresetStudio
+```
+
+The build script installs PyInstaller into the active Python environment if it is not already available. The build machine must have Tkinter development/runtime support installed.
+
+To build manually:
+
+```bash
+python3 -m pip install pyinstaller
+pyinstaller --noconfirm --clean --windowed --onedir \
+  --name PresetStudio \
+  main.py
+```
+
+Build on the target operating system. A Linux build is not a Windows or macOS executable, and PyInstaller does not guarantee compatibility with every Linux distribution.
+
+## User data
+
+Preset Studio stores its profile and language settings under:
+
+```text
+~/.config/universal-preset-manager/
+```
+
+Your preset files remain in the folders configured in the application profiles. The application does not automatically move your preset library into its configuration directory.
+
+## Project structure
+
+```text
+.
+├── main.py       # Application window, profiles, library, inspector, JSON editors
+├── viewer.py     # Animation viewer, timeline, transform and path tools
+├── engine.py     # Keyframe evaluation, interpolation, geometry and transforms
+├── i18n.py       # English and Portuguese translations
+├── templates.py  # Filmcraft and generic JSON templates
+├── theme.py      # Tkinter theme and reusable UI components
+├── README.md
+├── README.pt-BR.md
+└── build_linux.sh
+```
+
+## Supported format notes
+
+The specialized animation viewer targets Filmcraft presets using the `filmcraft.effect-presets` structure, especially `graphic_text` and `motion` effects. Generic JSON files can be edited through the tree and raw-code views, but their application-specific behavior is not interpreted by the Filmcraft viewer.
+
+Always test exported or modified presets in the target application. Preset Studio is an editor and preview tool, not an official Filmcraft product.
+
+## Keyboard shortcuts
+
+The application displays its current shortcut hints in the interface. Common actions include:
+
+- `Ctrl + S` — Save
+- `Ctrl + N` — New preset
+- `Space` — Play / pause
+- `Left` / `Right` — Step through frames
+
+## Contributing
+
+Bug reports, reproducible examples, and pull requests are welcome. When reporting an issue, include:
+
+1. Operating system and Python version.
+2. Steps to reproduce the issue.
+3. A sanitized sample JSON preset, if possible.
+4. Any traceback printed in the terminal.
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE).
+No license has been declared in this repository yet. Until a license is added, all rights remain with the copyright holder and reuse should not be assumed to be permitted.

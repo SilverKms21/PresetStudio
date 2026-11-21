@@ -1,67 +1,162 @@
 # Preset Studio
 
-🌐 **Idioma:** [English](README.md) | Português (Brasil)
+**Um gerenciador desktop de presets JSON com visualizador de animação focado no Filmcraft.**
 
-**Gerenciador Universal de Presets JSON & Monitor NLE em Tempo Real**
+O Preset Studio é um aplicativo em Python/Tkinter para organizar, inspecionar, editar e visualizar presets JSON. Ele oferece suporte dedicado ao formato `filmcraft.effect-presets` e ferramentas de edição genérica para arquivos JSON de outros aplicativos.
 
-O **Preset Studio** é uma aplicação desktop leve e sem dependências externas, desenvolvida em Python e Tkinter com interface escura inspirada no **DaVinci Resolve Studio** e no **macOS**. Ele oferece edição visual nativa e pré-visualização animada em tempo real para presets do **Filmcraft** (`filmcraft.effect-presets`), além de um editor em árvore e código JSON bruto compatível com qualquer aplicativo que utilize arquivos `.json`.
+> **Status:** versão inicial / beta. Faça cópias de segurança dos seus presets importantes antes de editá-los.
 
----
+## Recursos
 
-## Funcionalidades
+- **Biblioteca de presets e perfis**
+  - Organize presets em perfis específicos por aplicativo.
+  - Escolha uma pasta de presets para cada perfil.
+  - Crie, duplique, importe, renomeie e exclua arquivos.
+  - Salve um modelo próprio por perfil para criar novos presets.
+- **Suporte ao Filmcraft**
+  - Modelos integrados para presets `graphic_text` e `motion`.
+  - Inspeção e edição de variações, efeitos e parâmetros.
+  - Edição de valores com keyframes e pré-visualização de animações.
+  - Validação de partes importantes da estrutura de presets do Filmcraft.
+- **Visualizador de animação**
+  - Pré-visualização em tempo real dos efeitos de texto e movimento suportados.
+  - Timeline com trilhas separadas para parâmetros animados.
+  - Controles visuais (gizmos) para mover, escalar e rotacionar objetos.
+  - Ferramentas específicas para ponto de âncora e caminho de movimento.
+  - Auto-Key, criação de keyframes e restauração de transformações.
+  - Zoom, movimentação da área de visualização, guias de encaixe e margens de segurança.
+  - Texto de exemplo e formas geométricas para testar animações.
+- **Edição JSON**
+  - Editor estruturado em árvore JSON.
+  - Editor de código JSON com formatação e aplicação das alterações.
+  - Suporte a JSON genérico de aplicativos com esquemas diferentes.
+- **Segurança e fluxo de trabalho**
+  - Cria um backup `.json.bak` ao salvar por cima de um preset existente.
+  - Atalhos de teclado para ações comuns de edição e reprodução.
+- **Idiomas**
+  - Interface em inglês e português brasileiro.
 
-* **Monitor NLE & Deck de Transporte em Tempo Real**:
-  * Avalia efeitos `graphic_text` e `motion` com interpolação de keyframes **Cubic Bézier** (`AutoBezier`, `ContinuousBezier`), `Linear` e `Hold`.
-  * **Alças interativas na tela (Gizmos)** para arrastar **Posição**, **Escala** e **Rotação** diretamente no monitor, criando ou atualizando keyframes automaticamente no tempo atual.
-  * Régua de timeline interativa com marcadores de keyframe em losango (`◆`), encaixe magnético (segure `Shift` para mover livremente), controle de velocidade (`1x` a `100x`) e modo Loop.
-  * Modos de fundo (Monitor Escuro, Grade Transparente, Verde Chroma), guias de centro, *Action Safe* (95%), *Title Safe* (90%) e ponto de âncora.
-  * Objetos de teste integrados (Texto de Exemplo, Retângulo, Quadrado, Círculo, Triângulo, Losango, Estrela e Bloco + Texto) para testar presets de movimento.
-* **Inspetor Dinâmico**:
-  * Gera controles tipados automaticamente (`Bool`, `Text`, `Float`, `Choice`, seletor de `Color`, vetores `Vec2` X/Y) com leitura ao vivo dos valores interpolados durante a reprodução.
-  * **Editor de Keyframes** dedicado para ajustar tempos em segundos, valores e curvas de interpolação.
-  * **Escalonamento Proporcional de Resolução**: Ao alterar `source_size`, todas as coordenadas de `position` e `anchor` (incluindo keyframes) são recalculadas proporcionalmente.
-* **Três Páginas Sincronizadas**:
-  1. **🎛 Inspetor & Viewer**: Edição visual estilo NLE com pré-visualização ao vivo.
-  2. **🌲 Árvore JSON**: Editor hierárquico universal para qualquer estrutura JSON (adicionar, editar e remover chaves ou itens de listas).
-  3. **</> Código JSON**: Edição direta do código-fonte com formatação, validação de sintaxe e sincronização instantânea com o Viewer.
-* **Perfis por Aplicativo & Segurança**:
-  * Gerencie pastas e modelos padrão por aplicativo (Filmcraft, OBS, EasyEffects, Godot, etc.) salvos em `~/.config/universal-preset-manager/profiles.json`.
-  * Filtro de busca rápida, criação a partir de modelos, duplicação, validação de esquema e backup automático `.json.bak` a cada salvamento.
+## Capturas de tela
 
----
+Adicione imagens ou GIFs do aplicativo aqui, por exemplo:
 
-## Requisitos e Instalação
-
-O Preset Studio utiliza **apenas a biblioteca padrão do Python**, dispensando instalações via `pip`.
-
-* **Python 3.8+**
-* **Tkinter** (incluso por padrão no Windows/macOS; no Ubuntu/Debian/Linux Mint, instale com `sudo apt install python3-tk`)
-
-### Executando o Projeto
-
-```bash
-git clone [https://github.com/seu-usuario/preset-studio.git](https://github.com/seu-usuario/preset-studio.git)
-cd preset-studio
-python3 preset_manager.py
+```markdown
+![Janela principal do Preset Studio](docs/screenshots/main-window.png)
 ```
 
----
+## Requisitos
 
-## Atalhos de Teclado
+- Linux, Windows ou macOS; Python 3.10 ou superior é recomendado.
+- Tkinter / Tcl-Tk.
+- A versão executada pelo código-fonte não exige bibliotecas Python de terceiros.
 
-| Atalho | Ação |
-| :--- | :--- |
-| `Ctrl + S` | Salvar preset atual (atualiza o backup `.json.bak`) |
-| `Ctrl + N` | Criar novo preset a partir de um modelo |
-| `Espaço` | Play / Pause no Viewer |
-| `←` / `→` | Avançar ou retroceder 1 quadro (30 FPS) |
-| `Shift + ←` / `→` | Avançar ou retroceder 10 quadros |
-| `Ctrl + ←` / `→` | Saltar para o keyframe anterior ou próximo |
-| `Home` / `End` | Ir para o início ou fim da timeline |
-| `Shift + Arrastar` (Timeline) | Navegar na timeline sem encaixe magnético nos keyframes |
+No Debian/Ubuntu, instale o Tkinter com:
 
----
+```bash
+sudo apt update
+sudo apt install python3 python3-tk python3-venv
+```
+
+## Executar pelo código-fonte
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/SEU_USUARIO/preset-studio.git
+cd preset-studio
+```
+
+Execute:
+
+```bash
+python3 main.py
+```
+
+Se sua distribuição Linux disponibilizar o Tkinter em um pacote separado, instale-o antes de iniciar o aplicativo.
+
+## Gerar um executável Linux
+
+O repositório inclui o script `build_linux.sh`. Ele utiliza o PyInstaller para gerar uma pasta com o executável e o ambiente necessário para executá-lo.
+
+```bash
+chmod +x build_linux.sh
+./build_linux.sh
+```
+
+O resultado será criado em:
+
+```text
+dist/PresetStudio/
+```
+
+Para executar:
+
+```bash
+./dist/PresetStudio/PresetStudio
+```
+
+Se o PyInstaller ainda não estiver instalado no ambiente Python ativo, o script tentará instalá-lo. A máquina de compilação precisa ter o suporte de execução do Tkinter instalado.
+
+Também é possível compilar manualmente:
+
+```bash
+python3 -m pip install pyinstaller
+pyinstaller --noconfirm --clean --windowed --onedir \
+  --name PresetStudio \
+  main.py
+```
+
+Faça a compilação no sistema operacional de destino. Um executável Linux não funciona como executável Windows ou macOS, e o PyInstaller não garante compatibilidade com todas as distribuições Linux.
+
+## Dados do usuário
+
+O Preset Studio armazena as configurações de perfis e idioma em:
+
+```text
+~/.config/universal-preset-manager/
+```
+
+Os arquivos de presets continuam nas pastas configuradas nos perfis do aplicativo. A biblioteca de presets não é movida automaticamente para a pasta de configuração.
+
+## Estrutura do projeto
+
+```text
+.
+├── main.py       # Janela principal, perfis, biblioteca, inspetor e editores JSON
+├── viewer.py     # Visualizador, timeline, ferramentas de transformação e caminho
+├── engine.py     # Avaliação de keyframes, interpolação, geometria e transformações
+├── i18n.py       # Traduções em inglês e português
+├── templates.py  # Modelos Filmcraft e JSON genérico
+├── theme.py      # Tema Tkinter e componentes reutilizáveis
+├── README.md
+├── README.pt-BR.md
+└── build_linux.sh
+```
+
+## Observações sobre os formatos suportados
+
+O visualizador especializado de animação é direcionado a presets Filmcraft com a estrutura `filmcraft.effect-presets`, especialmente os efeitos `graphic_text` e `motion`. Arquivos JSON genéricos podem ser editados pelas visualizações em árvore e código, mas seu comportamento específico não é interpretado pelo visualizador Filmcraft.
+
+Sempre teste os presets exportados ou modificados no aplicativo de destino. O Preset Studio é uma ferramenta independente de edição e pré-visualização, não um produto oficial do Filmcraft.
+
+## Atalhos de teclado
+
+A interface mostra as dicas dos atalhos disponíveis. Entre as ações comuns estão:
+
+- `Ctrl + S` — Salvar
+- `Ctrl + N` — Novo preset
+- `Espaço` — Reproduzir / pausar
+- `Seta esquerda` / `Seta direita` — Avançar ou voltar um quadro
+
+## Contribuição
+
+Relatos de bugs, exemplos reproduzíveis e pull requests são bem-vindos. Ao relatar um problema, informe:
+
+1. Sistema operacional e versão do Python.
+2. Etapas para reproduzir o problema.
+3. Um exemplo JSON sem dados sensíveis, se possível.
+4. Qualquer traceback exibido no terminal.
 
 ## Licença
 
-Este projeto é de código aberto e está disponível sob a [Licença MIT](LICENSE).
+Este repositório ainda não declara uma licença. Até que uma licença seja adicionada, todos os direitos permanecem com o titular dos direitos autorais e não se deve presumir que a reutilização esteja autorizada.
