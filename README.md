@@ -152,4 +152,4 @@ Bug reports, reproducible examples, and pull requests are welcome. When reportin
 
 ## License
 
-No license has been declared in this repository yet. Until a license is added, all rights remain with the copyright holder and reuse should not be assumed to be permitted.
+Distributed under the **MIT** License.
