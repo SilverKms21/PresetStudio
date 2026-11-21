@@ -1,5 +1,6 @@
 # Preset Studio
 [🇧🇷 Português](README.pt-BR.md)
+
 **A desktop JSON preset manager with a Filmcraft-focused animation viewer.**
 
 Preset Studio is a Python/Tkinter application for organizing, inspecting, editing, and previewing JSON presets. It includes dedicated support for the `filmcraft.effect-presets` format, while also providing generic JSON editing tools for other applications.
