@@ -36,14 +36,6 @@ O Preset Studio é um aplicativo em Python/Tkinter para organizar, inspecionar, 
 - **Idiomas**
   - Interface em inglês e português brasileiro.
 
-## Capturas de tela
-
-Adicione imagens ou GIFs do aplicativo aqui, por exemplo:
-
-```markdown
-![Janela principal do Preset Studio](docs/screenshots/main-window.png)
-```
-
 ## Requisitos
 
 - Linux, Windows ou macOS; Python 3.10 ou superior é recomendado.
