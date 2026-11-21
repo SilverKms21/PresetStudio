@@ -152,4 +152,4 @@ Relatos de bugs, exemplos reproduzíveis e pull requests são bem-vindos. Ao rel
 
 ## Licença
 
-Este repositório ainda não declara uma licença. Até que uma licença seja adicionada, todos os direitos permanecem com o titular dos direitos autorais e não se deve presumir que a reutilização esteja autorizada.
+Distribuído sob a licença **MIT**.
