@@ -1,5 +1,5 @@
 # Preset Studio
-Read in .[Portuguese][README.pt-BR.md]
+Read in [Portuguese][README.pt-BR.md]
 **Universal JSON Preset Manager & Real-Time NLE Keyframe Viewer**
 
 Preset Studio is a lightweight, zero-dependency desktop application built with Python and Tkinter, featuring a dark interface inspired by **DaVinci Resolve Studio** and **macOS**. It provides native visual editing and real-time keyframe animation previewing for **Filmcraft** (`filmcraft.effect-presets`), alongside a universal JSON tree and raw code editor compatible with any JSON-based software.
