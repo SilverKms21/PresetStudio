@@ -1,155 +1,104 @@
 # Preset Studio
-[🇧🇷 Português](README.pt-BR.md)
 
-**A desktop JSON preset manager with a Filmcraft-focused animation viewer.**
+[English](README.md) · [Português (BR)](README.pt-BR.md)
 
-Preset Studio is a Python/Tkinter application for organizing, inspecting, editing, and previewing JSON presets. It includes dedicated support for the `filmcraft.effect-presets` format, while also providing generic JSON editing tools for other applications.
+A desktop editor and manager for JSON presets, written in Rust with [egui](https://github.com/emilk/egui).
+It started as a Python/Tkinter tool for **Filmcraft effect presets** and grew into a small
+workbench for any JSON file: a visual compositing viewer with keyframes, a tree editor,
+a raw editor and viewers for several well-known formats.
 
-> **Status:** Early release / beta. Back up important preset files before editing them.
+> Dark UI inspired by DaVinci Resolve / macOS. English by default, switch to Portuguese instantly (EN/PT button).
 
 ## Features
 
-- **Preset library and profiles**
-  - Organize presets in application-specific profiles.
-  - Choose a presets folder for each profile.
-  - Create, duplicate, import, rename, and delete preset files.
-  - Save a profile-specific template for creating new presets.
-- **Filmcraft support**
-  - Built-in templates for `graphic_text` and `motion` presets.
-  - Inspect and edit preset variations, effects, and parameters.
-  - Edit keyframed values and preview animated parameters.
-  - Validate important parts of the Filmcraft preset structure.
-- **Animation viewer**
-  - Real-time preview of supported Filmcraft text and motion effects.
-  - Timeline with separate tracks for animated parameters.
-  - Transform gizmos for moving, scaling, and rotating objects.
-  - Dedicated anchor and motion-path editing tools.
-  - Auto-Key, keyframe stamping, and transform reset actions.
-  - Viewport zoom, pan, snapping guides, and safe-area guides.
-  - Sample text and geometric objects for previewing motion.
-- **JSON editing**
-  - Structured JSON tree editor.
-  - Raw JSON editor with formatting and apply actions.
-  - Generic JSON preset support for applications with different schemas.
-- **Safety and workflow**
-  - Creates a `.json.bak` backup when saving over an existing preset.
-  - Keyboard shortcuts for common editing and playback actions.
-- **Localization**
-  - English and Brazilian Portuguese interface translations.
+### Studio (Filmcraft presets)
+- **Compositing viewer** with a transform gizmo: move, corner/edge scale, rotate, anchor point.
+- **Motion-path overlay**: drag position keyframes directly on the canvas.
+- **Magnetic snap** to center and thirds, safe-area guides, zoom, pan and background modes (dark, checker, chroma green).
+- **Live HUD** with position, scale, rotation and anchor.
+- **Auto-key** and "add keyframes" on all transform properties.
+- **Interactive timeline**: scrub, drag keyframes (frame-snapped, hold `Shift` for free time), **select and delete keyframes** (`Delete` / `Backspace`, right-click menu, or the toolbar button).
+- **Inspector** grouped by Transform / Text / Fill & Outline / Background & Shadow, with live animated values and a per-parameter keyframe editor (time, interpolation, values).
+- Preview of `graphic_text` (fill, stroke, shadow, background, caps, alignment) and `motion` on dummy shapes (rect, square, circle, triangle, diamond, star, text).
+- Base resolution rescaling that also scales position/anchor keyframes.
 
-## Requirements
+### Format Viewer
+Detected automatically when you open a file:
 
-- Linux, Windows, or macOS with Python 3.10+ recommended.
-- Tkinter / Tcl-Tk.
-- No third-party Python packages are required to run the source version.
+| Format | What you get |
+|---|---|
+| **OBS Studio** (scene collection or single transition) | Animated preview of Fade, Cut, Slide, Swipe, Fade to Color, Luma Wipe and Stinger; editor for settings, default duration, add/remove transitions |
+| **Lottie** | Composition info and a layer timeline with playhead |
+| **GeoJSON** | Drawing of points, lines and polygons, bounding box, geometry counts |
+| **Transcripts** (Whisper-style `segments`) | Segment list with timestamps, timeline bar, word count |
+| **Any other JSON** | Structure statistics, largest arrays, hex color swatches, numeric-array plots |
 
-On Debian/Ubuntu, install Tkinter with:
+### Library & editing
+- Multiple **profiles** (apps), each with its own folder, schema type and template.
+- File library with search, new / duplicate / import / rename / delete.
+- **JSON tree** editor (edit values, add/remove nodes) and **raw JSON** editor with format and validate.
+- Automatic `.bak` backup on save.
+
+## Install & run
+
+Requires **Rust 1.81+**.
 
 ```bash
-sudo apt update
-sudo apt install python3 python3-tk python3-venv
-```
-
-## Run from source
-
-Clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/preset-studio.git
+git clone <your-repo-url>
 cd preset-studio
+cargo run --release
 ```
 
-Run the application:
+Run the tests:
 
 ```bash
-python3 main.py
+cargo test
 ```
 
-If your distribution separates Tkinter from the base Python package, install its Tkinter package first.
+On Linux, file dialogs use `xdg-desktop-portal` (through [`rfd`](https://github.com/PolyMeilex/rfd)), so make sure a portal backend is installed (it is on most desktops).
 
-## Build a Linux executable
+## Shortcuts
 
-The repository includes `build_linux.sh`. It uses PyInstaller to create an application folder containing the executable and its bundled runtime.
+| Action | Shortcut |
+|---|---|
+| Save / New preset | `Ctrl+S` / `Ctrl+N` |
+| Play / pause | `Space` |
+| Step frame (×10 with `Shift`) | `←` `→` |
+| Jump to previous / next keyframe | `Ctrl+←` `Ctrl+→` |
+| Go to start / end | `Home` / `End` |
+| Delete selected keyframe | `Delete` / `Backspace` |
+| Zoom / pan viewer | Mouse wheel / middle button drag |
+| Disable snap while dragging | Hold `Ctrl` |
+| Snap rotation to 15° / non-uniform corner scale | Hold `Shift` |
 
-```bash
-chmod +x build_linux.sh
-./build_linux.sh
+## Configuration
+
+Settings and profiles are stored in `~/.config/universal-preset-manager/`
+(`profiles.json`, `settings.json`) and are compatible with the original Python version.
+
+## Project layout
+
+```
+src/
+├── main.rs        entry point
+├── app.rs         profiles, library, pages, dialogs
+├── viewer.rs      compositing viewer, gizmos, timeline, rendering
+├── inspector.rs   parameter inspector and keyframe editor
+├── formats.rs     OBS / Lottie / GeoJSON / transcript / generic viewers
+├── engine.rs      RGBA blending, Bézier easing, 2D transforms, hit-testing
+├── jsonx.rs       JSON helpers
+├── templates.rs   embedded default presets (src/templates/*.json)
+├── i18n.rs        English / Portuguese strings
+└── theme.rs       palette and UI helpers
 ```
 
-The output is created under:
+## Known limitations
 
-```text
-dist/PresetStudio/
-```
-
-Run it with:
-
-```bash
-./dist/PresetStudio/PresetStudio
-```
-
-The build script installs PyInstaller into the active Python environment if it is not already available. The build machine must have Tkinter development/runtime support installed.
-
-To build manually:
-
-```bash
-python3 -m pip install pyinstaller
-pyinstaller --noconfirm --clean --windowed --onedir \
-  --name PresetStudio \
-  main.py
-```
-
-Build on the target operating system. A Linux build is not a Windows or macOS executable, and PyInstaller does not guarantee compatibility with every Linux distribution.
-
-## User data
-
-Preset Studio stores its profile and language settings under:
-
-```text
-~/.config/universal-preset-manager/
-```
-
-Your preset files remain in the folders configured in the application profiles. The application does not automatically move your preset library into its configuration directory.
-
-## Project structure
-
-```text
-.
-├── main.py       # Application window, profiles, library, inspector, JSON editors
-├── viewer.py     # Animation viewer, timeline, transform and path tools
-├── engine.py     # Keyframe evaluation, interpolation, geometry and transforms
-├── i18n.py       # English and Portuguese translations
-├── templates.py  # Filmcraft and generic JSON templates
-├── theme.py      # Tkinter theme and reusable UI components
-├── README.md
-├── README.pt-BR.md
-└── build_linux.sh
-```
-
-## Supported format notes
-
-The specialized animation viewer targets Filmcraft presets using the `filmcraft.effect-presets` structure, especially `graphic_text` and `motion` effects. Generic JSON files can be edited through the tree and raw-code views, but their application-specific behavior is not interpreted by the Filmcraft viewer.
-
-Always test exported or modified presets in the target application. Preset Studio is an editor and preview tool, not an official Filmcraft product.
-
-## Keyboard shortcuts
-
-The application displays its current shortcut hints in the interface. Common actions include:
-
-- `Ctrl + S` — Save
-- `Ctrl + N` — New preset
-- `Space` — Play / pause
-- `Left` / `Right` — Step through frames
-
-## Contributing
-
-Bug reports, reproducible examples, and pull requests are welcome. When reporting an issue, include:
-
-1. Operating system and Python version.
-2. Steps to reproduce the issue.
-3. A sanitized sample JSON preset, if possible.
-4. Any traceback printed in the terminal.
+- Fonts: egui only ships its default fonts, so the font family set in a preset is ignored (bold is simulated; italic, underline and strikethrough work).
+- OBS previews approximate the built-in transitions; stinger videos and luma images are not loaded.
+- Lottie files are inspected, not rendered.
+- Some symbols (⏮ ◆ ◇ …) depend on glyphs available in the embedded egui font.
 
 ## License
 
-Distributed under the **MIT** License.
+Add your license here (e.g. MIT).
