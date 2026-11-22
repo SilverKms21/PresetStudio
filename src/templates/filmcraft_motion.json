@@ -1,0 +1,84 @@
+{
+  "format": "filmcraft.effect-presets",
+  "version": 1,
+  "presets": [
+    {
+      "name": "Smooth Motion Zoom",
+      "keyframes": "Scale",
+      "source_duration": 3000000000,
+      "source_size": [
+        1920,
+        1080
+      ],
+      "effects": [
+        {
+          "effect": "motion",
+          "enabled": true,
+          "params": {
+            "anchor": {
+              "value": {
+                "Vec2": {
+                  "x": 960.0,
+                  "y": 540.0
+                }
+              }
+            },
+            "anti_flicker": {
+              "value": {
+                "Float": 0.0
+              }
+            },
+            "position": {
+              "value": {
+                "Vec2": {
+                  "x": 960.0,
+                  "y": 540.0
+                }
+              }
+            },
+            "rotation": {
+              "value": {
+                "Float": 0.0
+              }
+            },
+            "scale": {
+              "value": {
+                "Float": 100.0
+              },
+              "keyframes": [
+                {
+                  "time": 0,
+                  "value": {
+                    "Float": 100.0
+                  },
+                  "interp": "AutoBezier",
+                  "out_influence": 0.3333333333333333,
+                  "in_influence": 0.3333333333333333
+                },
+                {
+                  "time": 3000000000,
+                  "value": {
+                    "Float": 135.0
+                  },
+                  "interp": "AutoBezier",
+                  "out_influence": 0.3333333333333333,
+                  "in_influence": 0.3333333333333333
+                }
+              ]
+            },
+            "scale_width": {
+              "value": {
+                "Float": 100.0
+              }
+            },
+            "uniform_scale": {
+              "value": {
+                "Bool": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
