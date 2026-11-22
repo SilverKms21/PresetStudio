@@ -44,7 +44,7 @@ Detected automatically when you open a file:
 Requires **Rust 1.81+**.
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/SilverKms21/PresetStudio.git
 cd preset-studio
 cargo run --release
 ```
