@@ -101,4 +101,4 @@ src/
 
 ## License
 
-Add your license here (e.g. MIT).
+distributed under the MIT License
